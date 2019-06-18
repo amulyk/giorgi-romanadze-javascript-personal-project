@@ -1,50 +1,54 @@
-
-class LMSModel {
+export class LMSModel {
     constructor() {
-      this.usersMap = new Map()
+        this.db = new Set();
     }
-  
-    add(elems) {
-      if (typeof elems !== 'object' && elems.lessons !== 'undefined' && elems.title !== 'undefined' && customElements.description !== 'string') {
-        throw new Error("Parameter type is not object")
-      }
-      this.usersMap.set(elems.id, elems.title)
-      // console.log(this.usersMap)
-    }
-  
-    remove(elems) {
-      if (typeof elems !== 'object' && elems.lessons !== 'undefined' && elems.title !== 'undefined' && customElements.description !== 'string') {
-        throw new Error("Parameter type is not object")
-      }
-      this.usersMap.delete(elems.id)
-    }
-  
-    verify(elems) {
-      if (this.usersMap.has(elems.id)) {
-        console.log(true)
-      }
-      else {
-        console.log(false)
-      }
-    }
-  
-    readAll() {
-      for (const v of this.usersMap) {
-        console.log(v)
-  
-        // const returnNewClass = new SubjectsModel(v);
-        // returnNewClass.lessons = returnNewClass.lessons
-        // console.log(returnNewClass)
-  
-      }
-  
-      // return new Promise(function(resolve,reject) {
+
+    async add(elem) {
         
-  
-  
-      // }
-      // )
+        this.validator(elem);
+        this.db.add(elem.elem);
     }
-  
-  
-  }
+
+    async validator(elem) {
+
+        if (typeof elem.elem.title !== 'string')
+            throw new TypeError('title should be string');
+
+        if (typeof elem.elem.lessons !== 'number')
+            throw new TypeError('lessons should be number');
+    }
+
+    async verify(elem) {
+
+        if (elem == 'undefined') {
+            throw new Error("The elem is empty")
+        }
+
+        if (this.db.has(elem.elem)) {
+            return this.db.has(elem.elem);
+        }
+
+        else {
+            return false
+        }
+    }
+
+    async remove(elem) {
+        if (!this.db.has(elem.elem)) {
+            throw new Error("We can't found the elements")
+        }
+
+        if (this.db.has(elem.elem)) {
+            return this.db.delete(elem.elem);
+        }
+    }
+
+    async readAll() {
+        let elem = this.db
+        if (typeof elem == 'undefined') {
+            throw new Error("Oopps,here is something wrong...")
+        }
+
+        return [...elem]
+    }
+}
