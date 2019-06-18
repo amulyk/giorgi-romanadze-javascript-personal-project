@@ -1,5 +1,4 @@
-// here goes validation code
-
-valdiationObj= {
-
-}
+export function validate(object, schema) {
+    
+  }
+  

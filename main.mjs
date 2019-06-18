@@ -63,7 +63,7 @@ const teacherList = {
   "emails": [
     {
       "email": "gromanadze@gmail.com",
-      "primary": true
+      "primary": false
     }
   ],
 
@@ -91,8 +91,17 @@ const updatedTeacherList = {
     "last": "Ananidze"
   },
 
-  "sex" : "famele"
-
+  "sex": "famele", 
+  "emails": [
+    {
+      "email": "gromanadze@gmail.com",
+      "primary": true
+    },
+    {
+      "email": "test@gmail.com",
+      "primary": true
+    }
+  ]
 };
 
 
@@ -101,7 +110,7 @@ const teacher = new TeachersModel();
 var teacherid = teacher.add(teacherList);
 var getObject = teacher.read(teacherid);
 
-console.log(getObject);
+// console.log(getObject);
 
 
 // Update & remove checking
@@ -110,10 +119,7 @@ const remover = teacher.remove(teacherid);
 // Deleted ? return TRUE
 // console.log(remover)
 
-
-
-
 const update = teacher.update(teacherList, updatedTeacherList);
-const result = teacher.read(teacherList);
-console.log(result);
+// const result = teacher.read(teacherList);
+console.log(teacherList);
 // console.log(result);

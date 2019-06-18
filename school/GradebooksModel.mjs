@@ -1,6 +1,6 @@
 export class GradebooksModel {
     constructor(){
-        this.gradesbooks = new Map();
+        this.grades = new Map();
     }
 
     add (groupID)
@@ -17,7 +17,7 @@ export class GradebooksModel {
     }
     readAll()
     {
-        return [...this.gradesbooks];
+        return [...this.grades];
     }
 
 }
