@@ -81,7 +81,7 @@ export class GroupsModel {
 
     }
 
-
+    
     readAll() {
         var list = [...this.list]
         return list;
