@@ -1,23 +1,17 @@
-export class GradebooksModel {
-    constructor(){
-        this.grades = new Map();
-    }
+import {
+    validate
+} from './validate';
 
-    add (groupID)
-    {
 
-    }
-    clear()
-    {
-        this.grades.clear();
-    }
-    add(gradebookId, record)
-    {
+export class GradebooksModel{
 
-    }
-    readAll()
+    constructor(groups, teachers, lms)
     {
-        return [...this.grades];
+        this.gradebook = new Map();
+        this.mainbook = [];
+        this.groups = groups;
+        this.teachers = teachers;
+        this.lms = lms;
+        this.id = "";
     }
-
 }

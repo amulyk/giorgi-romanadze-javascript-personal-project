@@ -1,54 +1,30 @@
+import {
+    validate
+} from './validate';
 export class LMSModel {
     constructor() {
-        this.db = new Set();
+        this.ele = new Set();
     }
 
-    async add(elem) {
-        
-        this.validator(elem);
-        this.db.add(elem.elem);
+    async add(parameter) {
+        return this.ele.add(parameter.subject);
     }
 
-    async validator(elem) {
-
-        if (typeof elem.elem.title !== 'string')
-            throw new TypeError('title should be string');
-
-        if (typeof elem.elem.lessons !== 'number')
-            throw new TypeError('lessons should be number');
+    async verify(parameter) {
+        return this.ele.has(parameter.subject);
     }
 
-    async verify(elem) {
+    async remove(parameter) {
 
-        if (elem == 'undefined') {
-            throw new Error("The elem is empty")
+        if (parameter == 'undefined') {
+            throw new Error('Ooops,here is some problem...');
         }
-
-        if (this.db.has(elem.elem)) {
-            return this.db.has(elem.elem);
-        }
-
-        else {
-            return false
-        }
-    }
-
-    async remove(elem) {
-        if (!this.db.has(elem.elem)) {
-            throw new Error("We can't found the elements")
-        }
-
-        if (this.db.has(elem.elem)) {
-            return this.db.delete(elem.elem);
+        if (this.ele.has(parameter.subject)) {
+            this.ele.delete(parameter.subject);
         }
     }
 
     async readAll() {
-        let elem = this.db
-        if (typeof elem == 'undefined') {
-            throw new Error("Oopps,here is something wrong...")
-        }
-
-        return [...elem]
+        return [...this.ele]
     }
 }

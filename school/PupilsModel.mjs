@@ -1,92 +1,62 @@
+import {
+  validate
+} from './validate';
 export class PupilsModel {
-    constructor(){
-        this.pupils = new Map();
-    }
-    add (pupil)
-    {
-        if (typeof pupil !== 'object')
-            throw new TypeError('pupil is not an object');
-        if (typeof pupil.name !== 'object')
-            throw new TypeError('Provide object for name')
-        if (typeof pupil.name.first !== 'string')
-            throw new TypeError('Provide string for first name')
-        if (typeof pupil.name.last !== 'string')
-            throw new TypeError('Provide string for last name')
-        if (typeof pupil.image !== 'string')
-            throw new TypeError('Provide string for image')
-        var date = new Date(pupil.dateOfBirth);
-        date = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-        if (typeof date !== 'string')
-            throw new TypeError('Provide string for dateOfBirth in format \'dd-mm-yyy\'');
-        if (typeof pupil.phones !== 'object')
-            throw new TypeError('Provide object for phones')
-        for (let i = 0 ; i < pupil.phones.length ; i++)
-        {
-            if (typeof pupil.phones[0].phone !== 'string')
-                throw new TypeError('Provide string for phones.phone')
-            if (typeof pupil.phones[0].primary !== 'boolean')
-                throw new TypeError('Provide boolean for phones.primary')
-        }
-        if (typeof pupil.sex !== 'string')
-            throw new TypeError('Provide string for sex')
-        if (typeof pupil.description !== 'undefined' && typeof pupil.description !== 'string')
-            throw new TypeError('Provide string for description')
-        
-        const id =  () => {return '_' + Math.random().toString(36).substr(2, 9) };
-        var privateID = id();
-        this.pupils.set(privateID, pupil);
-        return privateID;
-    }
-    read (id)
-    {
-        if (typeof id !== 'string')
-        {
-            throw new TypeError('id is not a string');
-        }
-        if (this.pupils.get(id) == 'undefined')
-            return null;
-        var pupils = this.pupils.get(id);
-        var obj = { id , ...pupils }
-        return obj;
-    }
-    update(id, pupil)
-    {
-        let check = this.pupils.get(id)
-        if (typeof pupil !== 'object')
-            throw new TypeError('pupil is not an object');
-        if (typeof pupil.name !== 'object')
-            throw new TypeError('Provide object for name')
-        if (typeof pupil.name.first !== 'string')
-            throw new TypeError('Provide string for first name')
-        if (typeof pupil.name.last !== 'string')
-            throw new TypeError('Provide string for last name')
-        if (typeof pupil.image !== 'string')
-            throw new TypeError('Provide string for image')
-        if (typeof pupil.dateOfBirth !== 'string')
-            throw new TypeError('Provide string for dateOfBirth')
-        if (typeof pupil.phones !== 'object')
-            throw new TypeError('Provide object for phones')
-        for (let i = 0 ; i < pupil.phones.length ; i++)
-        {
-            if (typeof pupil.phones[0].phone !== 'string')
-                throw new TypeError('Provide string for phones.phone')
-            if (typeof pupil.phones[0].primary !== 'boolean')
-                throw new TypeError('Provide boolean for phones.primary')
-        }
-        if (typeof pupil.sex !== 'string')
-            throw new TypeError('Provide string for sex')
-        if (typeof pupil.description !== 'undefined' && typeof pupil.description !== 'string')
-            throw new TypeError('Provide string for description')
-        
-        this.pupils.set(id, pupil);
-        return true;
-    }
+  constructor() {
+      this.pupils = new Map();
+      this.schema = {
+          "name": {
+              "first": "string",
+              "last": "string"
+          },
+          "image": "string",
+          "dateOfBirth": "string",
+          "phones": [{
+              "phone": "string",
+              "primary": "boolean"
+          }],
+          "sex": "string",
+          "description": "string"
+      }
+  }
+  async add(pupil) {
+      if (validate(this.schema, pupil)) {
+          let id = Math.ceil(Math.random() * 100000000000);
+          this.pupils.set(id, pupil);
+          return id;
+      } else {
+          throw new Error('Oops,here is some problem.We can not add this item !');
+      }
+  }
 
 
-    remove(id)
-    {
-        if ( this.pupils.get(id) == void 0)
-            throw new ReferenceError('Invalid Id');
-        return this.pupils.delete(id) ;
-    }
+  async read(id) {
+      if (typeof id !== 'number' || this.pupils.get(id) == 'undefined')
+          throw new TypeError('Oops,here is some problem.We can not read this item !')
+      else {
+          var pupils = this.pupils.get(id);
+          var obj = {
+              id,
+              ...pupils
+          }
+          return (obj);
+      }
+  }
+
+  async update(currentID, obj) {
+      if (this.pupils.get(currentID) == null)
+          throw new TypeError('Oops,here is some problem.We can not update this item !');
+      else {
+          // Update coming soon
+      }
+  }
+
+  async remove(id) {
+      if (this.pupils.get(id) == null)
+          throw new TypeError('Oops,here is some problem.We can not find this id !');
+      else {
+          this.pupils.delete(id);
+          return this.pupils.delete(id)
+      }
+  }
 }

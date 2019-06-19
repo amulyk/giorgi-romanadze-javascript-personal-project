@@ -1,125 +1,161 @@
 import {
+  SubjectsModel,
+  LMSModel,
+  TeachersModel,
   PupilsModel,
   GroupsModel,
   GradebooksModel,
-  SubjectsModel,
-  LMSModel,
-  TeachersModel
 } from './school';
 
 
-
-/*
-    SubjectModel & LMSModel starts here
-    Version: 1.0.9
-*/
-
-const history = new SubjectsModel({
-  title: 'History',
-  lessons: 24
-});
-
-const mathe = new SubjectsModel({
-  title: 'mathematics',
-  lessons: 24,
-  description: "I love mathe than another subjects !"
-});
-
-// will return subjectId
-// You can activate this comments !
-// console.log("This is subject id: " + history.id);
-// console.log("This is subject id: " + mathe.id);
-
 (async () => {
-  const lmsDb = new LMSModel();
-  // await lms.remove(history);
-  await lmsDb.add(history);
-  await lmsDb.add(mathe);
-  // will return true or false. Answer will be true if we added this subject to lms
 
-  // console.log(await lmsDb.verify(mathe));
+  /*
+      SubjectModel & LMSModel starts here
+      Version: 1.0.9
+  */
 
-  // will return array of registered subjects
+  const history = new SubjectsModel({
+      title: 'History',
+      lessons: 24,
+      description: 'Some text'
+  });
 
-  // console.log(await lmsDb.readAll())
-})()
+  const mathe = new SubjectsModel({
+      title: 'mathematics',
+      lessons: 22,
+      description: 'I love math !'
+  });
 
-
-
-
-/*
-    TeachersModel starts here
-    Version: 1.0.6
-*/
-
-const teacherList = {
-  "name": {
-    "first": "Giorgi",
-    "last": "Romanadze"
-  },
-
-  "image": "string",
-  "dateOfBirth": "23/01/1990", // format date
-  "emails": [
-    {
-      "email": "gromanadze@gmail.com",
-      "primary": false
-    }
-  ],
-
-  "phones": [
-    {
-      "phone": "555506070",
-      "primary": true
-    }
-  ],
-
-  "sex": "male", // male or female
-  "subjects": [
-    {
-      "subject": "Mathe"
-    }
-  ],
-
-  "description": "This is a simple description",
-};
+  var historyid = history.id
+  console.log(historyid)
+  const lms = new LMSModel();
+  await lms.add(history);
+  await lms.add(mathe);
+  await lms.verify(history);
+  await lms.remove(history);
+  console.log(await lms.readAll());
 
 
-const updatedTeacherList = {
-  "name": {
-    "first": "Nika",
-    "last": "Ananidze"
-  },
+  /*
+      TeachersModel starts here
+      Version: 2.8.4
+  */
 
-  "sex": "famele", 
-  "emails": [
-    {
-      "email": "gromanadze@gmail.com",
-      "primary": true
-    },
-    {
-      "email": "test@gmail.com",
-      "primary": true
-    }
-  ]
-};
+  var teacherObj = {
+      "name": {
+          "first": 'Giorgi',
+          "last": "Romanadze"
+      },
+      "image": "image",
+      "dateOfBirth": "03/03/1970",
+      "emails": [{
+          "email": "gromanadze@gmail.com",
+          "primary": true
+      }],
+      "phones": [{
+          "phone": "555131313",
+          "primary": true
+      }],
+      "sex": "male",
+      "subjects": [{
+          "subject": "Mathematics"
+      }],
+      "description": "Test desc",
+  };
 
 
-// Create instance and read from object
-const teacher = new TeachersModel();
-var teacherid = teacher.add(teacherList);
-var getObject = teacher.read(teacherid);
+  var teacherSecondObject = {
+      "name": {
+          "first": 'Ana',
+          "last": "Gogitidze"
+      },
+      "image": "image",
+      "dateOfBirth": "03/02/1980",
+      "emails": [{
+          "email": "anamaria13@gmail.com",
+          "primary": true
+      }],
+      "phones": [{
+              "phone": "555131231",
+              "primary": true
+          },
+          {
+              "phone": "555145412",
+              "primary": false
+          }
+      ],
+      "sex": "female"
+  };
 
-// console.log(getObject);
+  var obj = {
+      "name": {
+          "first": 'Niko',
+          "last": "Meladze"
+      },
+      "phones": [{
+              "phone": "555141515",
+              "primary": false
+          },
+          {
+              "phone": "555181815",
+              "primary": true
+          }
+      ],
+  }
 
 
-// Update & remove checking
-const remover = teacher.remove(teacherid);
+  const teacher = new TeachersModel();
+  var teacherid = await teacher.add(teacherObj);
+  await teacher.update(teacherid, obj)
+  await teacher.read(teacherid)
+  var teacherid = await teacher.add(teacherObj);
+  var result = await teacher.read(teacherid);
+  var update = await teacher.update(teacherid, teacherSecondObject);
+  result = await teacher.read(teacherid);
+  var deletedteacher = await teacher.remove(teacherid);
 
-// Deleted ? return TRUE
-// console.log(remover)
 
-const update = teacher.update(teacherList, updatedTeacherList);
-// const result = teacher.read(teacherList);
-console.log(teacherList);
-// console.log(result);
+
+  /*
+      PupilModel starts here
+      Version: 1.0.9
+  */
+
+  var pupil1 = {
+      "name": {
+          "first": "Pitter",
+          "last": "Black"
+      },
+      "image": "string",
+      "dateOfBirth": "string",
+      "phones": [{
+          "phone": "string",
+          "primary": true
+      }],
+      "sex": 'male',
+      "description": "A Good pupil",
+  }
+
+  var pupil2 = {
+      "name": {
+          "first": "Changed",
+          "last": "To this"
+      },
+      "image": "string",
+      "dateOfBirth": "string",
+      "phones": [{
+          "phone": "string",
+          "primary": true
+      }],
+      "sex": 'male',
+      "description": "A Good pupil",
+  }
+
+  const pupils = new PupilsModel();
+  var pupilid = await pupils.add(pupil1);
+  var result = await pupils.read(pupilid);
+  var update = await pupils.update(pupilid, pupil2);
+  result = await pupils.read(pupilid);
+  var deletedpupils = await pupils.remove(pupilid);
+})();

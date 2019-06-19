@@ -1,17 +1,14 @@
 export class SubjectsModel {
-  constructor(elem) {
-
-    this.id = Math.floor(Math.random() * 1000000000);
-    let title = elem.title;
-    let lessons = elem.lessons;
-    let description = elem.description;
-
-    if (typeof description == 'undefined') {
-      description = null;
+    constructor(subject) {
+        this.id = Math.ceil(Math.random() * 100000000000);
+        var title = subject.title;
+        var lessons = subject.lessons;
+        var description = subject.description
+        this.subject = {
+            title,
+            lessons,
+            description
+        }
     }
 
-    this.elem = {
-      title, lessons, description
-    }
-  }
 }
